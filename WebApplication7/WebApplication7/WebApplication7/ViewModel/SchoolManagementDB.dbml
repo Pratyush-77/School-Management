@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="dbschoolmngt" Class="SchoolManagementDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.tblClassMaster" Member="tblClassMasters">
+    <Type Name="tblClassMaster">
+      <Column Name="ClassId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ClassName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="tblClassMaster_tblAdmission" Member="tblAdmissions" ThisKey="ClassId" OtherKey="ClassID" Type="tblAdmission" />
+      <Association Name="tblClassMaster_tblFeeStructureMaster" Member="tblFeeStructureMasters" ThisKey="ClassId" OtherKey="ClassNameID" Type="tblFeeStructureMaster" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblSectionMaster" Member="tblSectionMasters">
+    <Type Name="tblSectionMaster">
+      <Column Name="SectionID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SectionName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="tblSectionMaster_tblAdmission" Member="tblAdmissions" ThisKey="SectionID" OtherKey="SectionID" Type="tblAdmission" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblSessionMaster" Member="tblSessionMasters">
+    <Type Name="tblSessionMaster">
+      <Column Name="SessionID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SessionName" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="tblSessionMaster_tblAdmission" Member="tblAdmissions" ThisKey="SessionID" OtherKey="SessionID" Type="tblAdmission" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblExpenseHeadMaster" Member="tblExpenseHeadMasters">
+    <Type Name="tblExpenseHeadMaster">
+      <Column Name="ExpenseID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ExpenseName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="tblExpenseHeadMaster_tblExpense" Member="tblExpenses" ThisKey="ExpenseID" OtherKey="ExpenseHeadID" Type="tblExpense" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblFundMaster" Member="tblFundMasters">
+    <Type Name="tblFundMaster">
+      <Column Name="FundID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FundName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="tblFundMaster_tblAddIncome" Member="tblAddIncomes" ThisKey="FundID" OtherKey="FundID" Type="tblAddIncome" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblAdmission" Member="tblAdmissions">
+    <Type Name="tblAdmission">
+      <Column Name="AdmissionID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AdmissionNo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="AdmissionDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="StudentName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DOB" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MotherTongue" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="BloodGroup" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="AadhaarNo" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="AadhaarFrontImage" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="AadhaarBackImage" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Nationality" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Religion" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Caste" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FatherName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="FatherOccupation" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FatherMobileNo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FatherAnnualIncome" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="MotherName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="MotherOccupation" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="MotherMobileNo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="MotherAnnualIncome" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ClassID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SectionID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SessionID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblClassMaster_tblAdmission" Member="tblClassMaster" ThisKey="ClassID" OtherKey="ClassId" Type="tblClassMaster" IsForeignKey="true" />
+      <Association Name="tblSectionMaster_tblAdmission" Member="tblSectionMaster" ThisKey="SectionID" OtherKey="SectionID" Type="tblSectionMaster" IsForeignKey="true" />
+      <Association Name="tblSessionMaster_tblAdmission" Member="tblSessionMaster" ThisKey="SessionID" OtherKey="SessionID" Type="tblSessionMaster" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblFeeMaster" Member="tblFeeMasters">
+    <Type Name="tblFeeMaster">
+      <Column Name="FeeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FeeName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="tblFeeMaster_tblFeeStructureMaster" Member="tblFeeStructureMasters" ThisKey="FeeID" OtherKey="FeeNameID" Type="tblFeeStructureMaster" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblExpenses" Member="tblExpenses">
+    <Type Name="tblExpense">
+      <Column Name="ExpensesID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ExpensesHead" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="BillDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="BillNo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="BillImage" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Amount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PersonName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PayMode" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Remark" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ExpenseHeadID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblExpenseHeadMaster_tblExpense" Member="tblExpenseHeadMaster" ThisKey="ExpenseHeadID" OtherKey="ExpenseID" Type="tblExpenseHeadMaster" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblFeeStructureMaster" Member="tblFeeStructureMasters">
+    <Type Name="tblFeeStructureMaster">
+      <Column Name="FeeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Amount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ClassNameID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FeeNameID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblClassMaster_tblFeeStructureMaster" Member="tblClassMaster" ThisKey="ClassNameID" OtherKey="ClassId" Type="tblClassMaster" IsForeignKey="true" />
+      <Association Name="tblFeeMaster_tblFeeStructureMaster" Member="tblFeeMaster" ThisKey="FeeNameID" OtherKey="FeeID" Type="tblFeeMaster" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblAddIncome" Member="tblAddIncomes">
+    <Type Name="tblAddIncome">
+      <Column Name="IncomeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PayDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TransactionImage" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Amount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PersonName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PayMode" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Remark" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FundID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblFundMaster_tblAddIncome" Member="tblFundMaster" ThisKey="FundID" OtherKey="FundID" Type="tblFundMaster" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblCollectFee" Member="tblCollectFees">
+    <Type Name="tblCollectFee">
+      <Column Name="CollectFeeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AdmissionID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PaymentMode" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="AmountPaid" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="PaymentsDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblAddStaff" Member="tblAddStaffs">
+    <Type Name="tblAddStaff">
+      <Column Name="AddStaffID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EmpName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="EmpFatherName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="DOB" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MobileNo" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Designation" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PANNo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="AadhaarNo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PresentAddress" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PresentCityName" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="PresentDistrictName" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="PresentPincode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CorAddress" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CorCityName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CorDistrictName" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="CorPincode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GrossSalary" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="BasicSalary" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="HRA" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="EPF" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="MedicalAllowance" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="TravelAllowance" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="ConveyanceAllowance" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="ProfessionalTax" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="PFCount" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="SpecialAllowance" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="FoodAllowance" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="ESIC" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="NetGrossSalary" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="TotalDeduction" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="NetPay" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="ProfileImage" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="AadhaarFrontImage" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="AadhaarBackImage" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PANCard" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DocumentType" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Document" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="BankHolderName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="AccountNo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="BankName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="BranchName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IFSCCode" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PassbookImage" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

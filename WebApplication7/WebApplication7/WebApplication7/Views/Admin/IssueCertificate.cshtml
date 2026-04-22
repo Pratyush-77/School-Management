@@ -1,0 +1,172 @@
+﻿@model WebApplication7.Models.IssueCertificateModel
+@{
+    ViewBag.Title = "IssueCertificate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+
+            <div class="x_title">
+                <h2 style="font-size:16px;">➕ Create Certificate+</h2>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+
+                <!-- Row 1 -->
+                <div class="row">
+
+                    <!-- Admission No -->
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label>Admission No</label>
+                        @Html.DropDownListFor(m => m.AdmissionID, Model.AdmissionNoList, "-- Select Admission No. --", new { @class = "form-control", id = "AdmissionID" })
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <h4>Student Details</h4>
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label>Issue Date</label>
+                        <input type="date" class="form-control" id="IssueDate">
+                    </div>
+
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label>Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Name" id="StudentName">
+                    </div>
+
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label>Date of Birth</label>
+                        <input type="text" class="form-control" placeholder="Enter Date of Birth" id="DOB">
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label>Father's Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Father's Name" id="FatherName">
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label>Session</label>
+                        <input type="text" class="form-control" id="Session">
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label>Class</label>
+                        <input type="text" class="form-control" id="Class">
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label>Section</label>
+                        <input type="text" class="form-control" id="Section">
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <label>Certificate Type</label>
+                            <select class="form-control" id="CertificateType">
+                                <option value="">Select Certificate Type</option>
+                                <option value="BONAFIDE">BONAFIDE CERTIFICATE</option>
+                                <option value="ATTENDANCE">ATTENDANCE CERTIFICATE</option>
+                                <option value="CONDUCT">CONDUCT CERTIFICATE</option>
+                            </select>
+                        </div>
+                        <!-- Button -->
+                        <div class="col-md-3 col-sm-6 col-xs-12" style="margin-top:25px;">
+                            <button type="button" id="btnCreate" class="btn btn-success">
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+$("#AdmissionID").change(function () {
+
+    var admissionId = $(this).val();
+
+    $.ajax({
+        url: '/Admin/GetStudentDetail',
+        type: 'GET',  
+        data: { admissionId: admissionId },
+
+        success: function (data) {
+
+            if (data != null) {
+
+                $("#StudentName").val(data.Name);
+                $("#FatherName").val(data.FatherName);
+                $("#DOB").val(data.DOB);
+                $("#Session").val(data.Session);
+                $("#Class").val(data.Class);
+                $("#Section").val(data.Section);
+            }
+        }
+    });
+
+});
+
+    $("#btnCreate").click(function () {
+
+        var admissionId = $("#AdmissionID").val();
+        var issueDate = $("#IssueDate").val();
+        var certificateType = $("#CertificateType").val();
+
+        // Validation
+        if (issueDate == "") {
+            alert("Please select Issue Date");
+            return;
+        }
+
+        if (certificateType == "") {
+            alert("Please select Certificate Type");
+            return;
+        }
+
+        // Redirect based on certificate type
+
+        if (certificateType == "BONAFIDE") {
+
+            window.location.href = "/Admin/BonafideCertificate?admissionId=" + admissionId + "&issueDate=" + issueDate;
+
+        }
+        else if (certificateType == "ATTENDANCE") {
+
+            window.location.href = "/Admin/AttendanceCertificate?admissionId=" + admissionId + "&issueDate=" + issueDate;
+
+        }
+        else if (certificateType == "CONDUCT") {
+
+            window.location.href = "/Admin/ConductCertificate?admissionId=" + admissionId + "&issueDate=" + issueDate;
+
+        }
+
+    });
+
+
+
+</script>
+
+
+
+
+
+

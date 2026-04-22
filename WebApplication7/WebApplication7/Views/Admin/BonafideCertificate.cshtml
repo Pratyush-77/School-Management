@@ -1,0 +1,200 @@
+﻿@model WebApplication7.Models.IssueCertificateModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Bonafide Certificate</title>
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <script src="/Scripts/jquery-1.6.4.min.js"></script>
+    <style type="text/css">
+        body {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    background: #f8f9fa;
+    margin: 0;
+
+    /* CENTERING */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.certificate-box {
+    width: 800px;
+    min-height: 800px;
+    padding: 20px;
+    border: 2px double #000;
+    background-color: #fff;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.certificate-header {
+    text-align: center;
+    font-size: 18px;
+    text-decoration: underline;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.certificate-content {
+    padding: 10px;
+}
+
+.certificate-content p {
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.school-info {
+    text-align: center;
+}
+
+.school-logo {
+    width: 100px;
+}
+
+.date-section {
+    text-align: right;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.signature-section {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.button-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* PRINT CSS */
+@*@media print {
+
+    body {
+        background: #fff;
+        display: block;
+    }
+
+    body * {
+        visibility: hidden;
+    }*@
+
+    #printarea,
+    #printarea * {
+        visibility: visible;
+    }
+
+    #printarea {
+        position: relative;
+        margin: auto;
+        width: 800px;
+    }
+
+    .button-section {
+        display: none;
+    }
+
+
+    </style>
+</head>
+<body>
+    <div class="certificate-box" id="printarea">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 100px;">
+                    <img src="~/Content/Image/AdminLogo.png" alt="Logo" class="school-logo" />
+                </td>
+                <td class="school-info">
+                    <strong style="font-size: 16px;">Demo School</strong><br />
+                    Abc Jharkhand pin 606701.
+                </td>
+            </tr>
+        </table>
+
+        <hr style="margin: 5px 0;" />
+
+        <div class="certificate-content">
+            <p>
+                <strong>Correspondent:</strong><br />
+                G. Vinayakamoorthi, M.Com, M.A, M.Phil., B.Ed.
+            </p>
+
+            <div class="date-section">
+                Date: _<span> 11-02-2026</span>_
+            </div>
+
+            <div class="certificate-header">
+                <span class="certificate-title">BONAFIDE CERTIFICATE</span>
+            </div>
+            <p>
+                This is to certify that <strong>Disha goala </strong>, D/o <strong>Dilip goala </strong>, studied from <strong>1st Standard  STD</strong> during the academic year <strong>2025-26</strong>.
+                Her date of birth is <strong>28-06-2025</strong> and she was a student of <strong>Demo School, Chengam</strong>.
+                Her behavior and character is <strong>good</strong>.
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+            </p>
+
+        </div>
+
+        <div class="signature-section">
+            <span>Place: Chengam</span>
+            <span>Head Master</span>
+        </div>
+    </div>
+
+    <div class="button-section">
+        <input type="button" class="btn btn-success btn-sm" onclick="printDiv()" value="Print Certificate" />
+        <input type="button" class="btn btn-danger btn-sm" onclick="winclosefun()" value="Close" />
+    </div>
+
+    <script>
+        function printDiv() {
+            window.print();
+        }
+
+        function winclosefun() {
+            window.close();
+        }
+
+        @if(ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Message
+    </div>
+}
+
+    </script>
+</body>
+</html>

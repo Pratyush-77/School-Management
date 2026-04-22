@@ -1,0 +1,42 @@
+﻿/* Main content area */
+.main-content {
+    margin-left: 240px; /* SAME as sidebar width */
+    padding: 20px;
+    background-color: #f4f6f9;
+    min-height: 100vh;
+}
+
+/* Dashboard cards */
+.dashboard-card {
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease-in-out;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .dashboard-card .card-body {
+        padding: 20px;
+    }
+
+    .dashboard-card h2 {
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .dashboard-card p {
+        margin-bottom: 5px;
+        font-size: 15px;
+    }
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #343a40;
+    color: white;
+}

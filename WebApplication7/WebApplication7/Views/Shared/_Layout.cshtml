@@ -1,0 +1,480 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Demo School</title>
+
+    @*<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />*@
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <link href="~/Content/nprogress.css" rel="stylesheet" />
+    <link href="~/Content/switchery.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+
+    <script src="~/Scripts/js/jquery.min.js"></script>
+
+    @*----adding----*@
+    <link href="~/Content/css/UserPortalCss.css" rel="stylesheet" />
+
+    @*<script src="~/Scripts/modernizr-2.6.2.js"></script>*@
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',        // Default language of your site
+                includedLanguages: 'en,hi,ta,te,kn', // Add more if needed
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+
+    <script type="text/javascript"
+            src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <style>
+
+        .site_title {
+            font-weight: 600; /* A bit bold */
+            font-family: 'Cursive', sans-serif; /* Change the font to cursive */
+        }
+
+        .goog-logo-link, .goog-te-gadget span {
+            /*  display: none !important; */
+        }
+
+        #google_translate_element {
+            margin: 10px;
+            float: right; /* optional position */
+        }
+
+        .goog-te-gadget {
+            font-family: Arial;
+            font-size: 13px;
+            color: red;
+        }
+    </style>
+
+
+</head>
+<body class="nav-md">
+
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="#" class="site_title">  <span> <img src="~/Content/Image/AdminLogo.png" /><b style=" color:white; font-size:15PX"> Demo School </b>  </span></a>
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                    <!-- menu profile quick info -->
+                    <div class="profile clearfix">
+
+                        <div class="profile_pic">
+                            <img src="~/Content/Image/Avatar.png" alt="Logo" class="img-circle profile_img" />
+                        </div>
+
+                        <div class="profile_info">
+                            <span>Welcome</span>
+                            <h2><b>@HttpContext.Current.User.Identity.Name</b></h2>
+                        </div>
+                    </div>
+                    <!-- /menu profile quick info -->
+                    <br />
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                           
+                            <ul class="nav side-menu">
+                                @*@if (User.IsInRole("Administrator"))
+                                {*@
+                                    <!-- Dashboard -->
+                                    <li>
+                                        <a href="@Url.Action("Dashboard", "Admin")">
+                                            🏠 Dashboard
+                                        </a>
+                                    </li>
+
+                                    <!-- Master Tools -->
+                                    <li>
+                                        <a>
+                                            🧰 Master Key
+                                            <span class="fa fa-chevron-down"></span>
+                                        </a>
+
+                                        <ul class="nav child_menu">
+                                            <li>
+                                                <a href="@Url.Action("AddClass", "Admin")">
+                                                    Add Class
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("AddSection", "Admin")">
+                                                    Add Section
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("AddSession", "Admin")">
+                                                    Add Session
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("ExpenseHead", "Admin")">
+                                                    Add Expenses Head
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("AddFee", "Admin")">
+                                                    Add Fee Type
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("FeeStructure", "Admin")">
+                                                    Create Fee Structure
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("AddFund", "Admin")">
+                                                    Add Fund Type
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- Admisssion -->
+                                    <li>
+                                        <a>
+                                            Admission
+                                            <span class="fa fa-chevron-down"></span>
+                                        </a>
+
+                                        <ul class="nav child_menu">
+                                            <li>
+                                                <a href="@Url.Action("Admission", "Admin")">
+                                                    Admission
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("AdmissionList", "Admin")">
+                                                    Admission List
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- Fee -->
+                                    <li>
+                                        <a>
+                                            🧰 Fee
+                                            <span class="fa fa-chevron-down"></span>
+                                        </a>
+
+                                        <ul class="nav child_menu">
+                                            <li>
+                                                <a href="@Url.Action("CollectFee", "Admin")">
+                                                    Collect Fee
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("CollectionList", "Admin")">
+                                                    Collection List
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("DueFee", "Admin")">
+                                                    Due Fee
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!-- Leaving Certificate -->
+                                    <li>
+                                        <a>
+                                            Leaving Certificate
+                                            <span class="fa fa-chevron-down"></span>
+                                        </a>
+
+                                        <ul class="nav child_menu">
+                                            <li>
+                                                <a href="@Url.Action("IssueCertificate", "Admin")">
+                                                    Issue Certificate
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("CertificateList", "Admin")">
+                                                    Certificate List
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- Account -->
+                                    <li>
+                                        <a>
+                                            Account
+                                            <span class="fa fa-chevron-down"></span>
+                                        </a>
+
+                                        <ul class="nav child_menu">
+                                            <li>
+                                                <a href="@Url.Action("Expenses", "Admin")">
+                                                    Expenses
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- Income-->
+                                    <li>
+                                        <a>
+                                            Income
+                                            <span class="fa fa-chevron-down"></span>
+                                        </a>
+
+                                        <ul class="nav child_menu">
+                                            <li>
+                                                <a href="@Url.Action("AddIncome", "Admin")">
+                                                    Add Income
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- Staff -->
+                                    <li>
+                                        <a>
+                                            Staff
+                                            <span class="fa fa-chevron-down"></span>
+                                        </a>
+
+                                        <ul class="nav child_menu">
+                                            <li>
+                                                <a href="@Url.Action("AddStaff", "Admin")">
+                                                    Add Staff
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("StaffList", "Admin")">
+                                                    Staff List
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("StaffSalary", "Admin")">
+                                                    Generate Staff Salary
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("SalaryList", "Admin")">
+                                                    Salary List
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- Report -->
+                                    <li>
+                                        <a>
+                                            Report
+                                            <span class="fa fa-chevron-down"></span>
+                                        </a>
+
+                                        <ul class="nav child_menu">
+                                            <li>
+                                                <a href="@Url.Action("AdmissionReport", "Admin")">
+                                                    Admission Report
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("DefaultFeeReport", "Admin")">
+                                                    Default Fee Report
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("ExpensesReport", "Admin")">
+                                                    Expenses Report
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("ProfitandLoss", "Admin")">
+                                                    Profit and Loss
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+
+                                    @*}*@
+
+                                @if (User.IsInRole("User"))
+                                {
+
+                                    <!-- Dashboard -->
+                                    <li>
+                                        <a href="@Url.Action("Index", "MemberMoi")">
+                                            🏠 Dashboard
+                                        </a>
+                                    </li>
+
+                                    <!-- Add Member -->
+                                    <li>
+                                        <a href="@Url.Action("AddMember", "MemberMoi")">
+                                            👥 Add Member
+                                        </a>
+                                    </li>
+
+                                    <!-- Reports -->
+                                    <li>
+                                        <a href="@Url.Action("AddReport", "MemberMoi")">
+                                            📊 Report
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="sidebar-footer hidden-small">
+                        <a data-toggle="tooltip" data-placement="top" title="Full Screen" onclick="toggleFullScreen()">
+                            🔳
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Languages">
+                            🌍
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Change Password" href="@Url.Action("ChangePassword","Account")">
+                            🔒
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="@Url.Action("Logout","Account")">
+                            🚪
+                        </a>
+
+
+
+                    </div>
+
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav class="navbar navbar-expand-lg">
+
+                        <!-- Menu Toggle -->
+                        <div class="nav toggle">
+                            <a id="menu_toggle">
+                                <i class="fa fa-bars"></i>
+                            </a>
+                        </div>
+                        <!-- Google Translate -->
+                        <div id="google_translate_element" style="margin-right:15px;"></div>
+                        <!-- Right Side Navigation -->
+                        <ul class="nav navbar-nav navbar-right">
+
+                            <!-- User Profile Dropdown -->
+                            <li class="nav-item dropdown">
+                                <a href="javascript:void(0);"
+                                   class="user-profile dropdown-toggle"
+                                   data-toggle="dropdown"
+                                   aria-expanded="false">
+                                    👋 Welcome, <b>@HttpContext.Current.User.Identity.Name</b>
+                                    <span class="fa fa-angle-down"></span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    <li>
+                                        <a href="@Url.Action("ChangePassword", "Account")">
+                                            🔒 Change Password
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Logout", "Account")">
+                                            🚪 Logout <i class="fa fa-sign-out pull-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+
+
+                    </nav>
+                </div>
+            </div>
+
+            <!-- /top navigation -->
+            <div>
+                @RenderBody()
+            </div>
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    🚀 Developed with ❤️ by <a href="https://brightcodess.com" target="_blank" style="color: #525964;">Brightcode Software Services Pvt. Ltd. 🌟</a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="~/Scripts/js/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/js/fastclick.js"></script>
+    <script src="~/Scripts/js/nprogress.js"></script>
+    <script src="~/Scripts/js/icheck.min.js"></script>
+    <script src="~/Scripts/js/switchery.min.js"></script>
+
+    <script src="~/Scripts/js/jquery.validate.js"></script>
+    <script src="~/Scripts/js/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/js/jquery.smartWizard.js"></script>
+    <script src="~/Scripts/js/jquery.inputmask.bundle.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/js/custom.min.js"></script>
+    <script src="~/Scripts/js/notify.min.js"></script>
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Content/DataTables/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/DataTables/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/DataTables/js/buttons.print.min.js"></script>
+    <script src="~/Content/DataTables/js/pdfmake.min.js"></script>
+    <script src="~/Content/DataTables/js/vfs_fonts.js"></script>
+    <script src="~/Content/DataTables/js/jszip.min.js"></script>
+    <script src="~/Content/DataTables/js/buttons.html5.min.js"></script>
+
+    <script>
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+    </script>
+
+
+
+    @*----adding--*@
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    @RenderSection("Scripts", required: false)
+
+
+
+    @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>*@
+</body>
+</html>

@@ -1,0 +1,227 @@
+﻿@model WebApplication7.Models.AddIncomeModel
+@{
+    ViewBag.Title = "AddIncome";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 style="font-size:16px;">➕Add Income  <small></small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+                @using (Ajax.BeginForm("AddIncome", "Admin", new AjaxOptions() { OnSuccess = "Success", OnFailure = "Fail" }, new { @id = "formsubmit", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                {
+                    <div>
+                        @Html.HiddenFor(m => m.IncomeID)
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Add Fund Type <span class="star">*</span></label>
+                            @Html.DropDownListFor(m => m.FundID, Model.FundTypeList, "-- Select Class --", new { @class = "form-control", id = "ClassID" })
+                            @Html.ValidationMessageFor(m => m.FundID, "", new { @class = "label label-danger" })
+
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Pay Date<span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.PayDate, "{0:dd-MM-yyyy}", new { @class = "form-control", @required = "required", type = "date" })
+
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Transaction Image<span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.TransactionImage, new { @class = "form-control", @required = "required", @type = "file" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Amount <span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @required = "required" })
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Person Name<span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.PersonName, new { @class = "form-control", @required = "required" })
+
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Pay Mode<span class="star">*</span></label>
+                            @Html.DropDownListFor(x => x.PayMode, new[]{
+
+                            new SelectListItem() { Text = "Cash"},
+                            new SelectListItem() { Text = "Online"},
+                            }, "Select Payment mode", new { @class = "form-control" })
+
+
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Remark<span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.Remark, new { @class = "form-control", @required = "required" })
+
+                        </div>
+
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <button type="submit" class="btn btn-success">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+
+
+                }
+
+            </div>
+            <div class="container mt-4">
+
+                <table id="fundTable" class="table table-bordered table-striped">
+
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>Fund Type</th>
+                            <th>Person</th>
+                            <th>Amount</th>
+                            <th>Pay Mode</th>
+                            <th>Remark</th>
+                            <th>Image</th>
+                            <th>Pay Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var table;
+
+    $(document).ready(function () {
+
+        table = $('#fundTable').DataTable({
+
+            paging: true,
+            searching: true,
+            ordering: true,
+            info: true,
+
+            ajax: {
+                url: '/Admin/GetIncomeList',   // Controller Action
+                type: 'GET',
+                datatype: 'json',
+                dataSrc: 'data'   // IMPORTANT if returning List<>
+            },
+
+            columns: [
+
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + 1;
+                    }
+                },
+
+                { data: 'FundName' },
+                { data: 'PersonName' },
+                { data: 'Amount' },
+                { data: 'PayMode' },
+                { data: 'Remark' },
+
+                {
+                    data: 'TransactionImg',
+                    render: function (data) {
+
+                        if (data)
+                            return '<a href="/Uploads/' + data + '" target="_blank">View</a>';
+                        else
+                            return '';
+                    }
+                },
+
+                { data: 'PayDate' },
+
+                {
+                    data: 'IncomeID',
+                    render: function (data) {
+
+                        return '<button class="btn btn-danger btn-sm" onclick="DeleteIncome(' + data + ')">Delete</button>';
+                    }
+                }
+            ]
+
+        });
+
+    });
+
+    function DeleteIncome(id) {
+
+        if (!confirm("Are you sure you want to delete this record?"))
+            return;
+
+        $.ajax({
+
+            url: '/Admin/DeleteIncome',
+            type: 'POST',
+            data: { id: id },
+
+            success: function (resp) {
+
+                if (resp.result) {
+
+                    alert(resp.message);
+
+                    // reload table after delete
+                    table.ajax.reload();
+                }
+                else {
+
+                    alert(resp.message);
+                }
+            },
+
+            error: function () {
+
+                alert("Delete failed !");
+            }
+
+        });
+
+    }
+
+    function Success(response) {
+
+        if (response.Status) {
+
+            alert(response.Message);
+
+            $('#formsubmit')[0].reset();
+
+            table.ajax.reload();   // reload data
+        }
+        else {
+            alert(response.Message);
+        }
+    }
+
+    function Fail() {
+
+        alert("Something went wrong !");
+    }
+
+</script>
+ssss

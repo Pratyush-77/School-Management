@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "Staff List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+<div class="right_col" role="main">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between mb-3">
+        <h3>📋 Staff List</h3>
+
+        <a href="/admin/AddStaff" class="btn btn-success">
+            + Add New
+        </a>
+    </div>
+
+    <!-- Table -->
+    <table id="tblStaff" class="table table-bordered table-striped">
+
+        <thead style="background:#2f5d6b;color:white;">
+
+            <tr>
+                <th>Id</th>
+                
+                <th>Staff Name</th>
+                <th>Staff Type</th>
+                <th>Father Name</th>
+                <th>DOB</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Profile Image</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+        </thead>
+
+    </table>
+
+</div>
+
+
+<script>
+
+$(document).ready(function () {
+
+    $('#tblStaff').DataTable({
+
+        ajax: {
+            url: '/Admin/GetStaffList',
+            type: 'GET',
+            datatype: 'json'
+        },
+
+        dom: 'Bfrtip',
+
+        buttons: [
+            'excel',
+            'csv',
+            'print'
+        ],
+
+        columns: [
+
+            { data: 'Id' },
+            { data: 'StaffName' },
+            { data: 'StaffType' },
+            { data: 'FatherName' },
+            { data: 'DOB' },
+            { data: 'Mobile' },
+            { data: 'Email' },
+            { data: 'Address' },
+
+            {
+                data: 'ProfileImage',
+                render: function (data) {
+
+                    if (data)
+                        return '<a href="/Uploads/' + data + '" target="_blank">View</a>';
+                    else
+                        return '';
+                }
+            },
+
+            // ✅ STATUS
+            {
+                "data": function (val, type) {
+                    if (val.Status == true)
+                        return "<a class='label label-success' onclick='StatusChange(" + val.Id + ")'>Active</a>";
+                    else
+                        return "<a class='label label-danger' onclick='StatusChange(" + val.Id + ")'>DeActive</a>";
+                }
+            },
+
+            {
+                data: 'Id',
+                render: function (data) {
+
+                    return '<button class="btn btn-danger btn-sm" onclick="DeleteStaffList(' + data + ')">Delete</button>';
+                }
+            }
+
+        ]
+
+    });
+
+});
+
+    function DeleteStaffList(id) {
+
+        if (!confirm("Are you sure you want to delete this record?"))
+            return;
+
+        $.ajax({
+            url: '/Admin/DeleteStaffList',
+            type: 'POST',
+            data: { id: id },
+
+            success: function (response) {
+
+                if (response.result) {
+
+                    alert(response.message);
+
+                    table.ajax.reload(); // refresh datatable
+
+                } else {
+
+                    alert(response.message);
+                }
+            },
+
+            error: function () {
+
+                alert("Delete failed");
+            }
+        });
+    }
+
+
+    function StatusChange(id) {
+        if (confirm('Are You Sure want to change Status?')) {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/StaffListStatus/" + id,
+                success: function (response) {
+                    if (response.result) {
+                        $.notify(response.message, { globalPosition: 'top right', className: 'success' });
+                        DataTable.ajax.reload();
+                    }
+                },
+                error: function (msg) {
+                    $.notify(msg.responseText, { globalPosition: 'top right', className: 'error' })
+                }
+            })
+        }
+    };
+
+</script>

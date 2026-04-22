@@ -1,0 +1,181 @@
+﻿@model WebApplication7.Models.AdmissionReportModel
+@{
+    ViewBag.Title = "AdmissionReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 style="font-size:16px;">➕Admission Details <small></small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <label>Admission No</label>
+                        <input type="text" class="form-control" id="AdmissionNo" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Class Wise</label>
+                        @Html.DropDownListFor(m => m.ClassID, Model.ClassList, "-- Select Class --", new { @class = "form-control", id = "ClassID" })
+                        @Html.ValidationMessageFor(m => m.ClassID, "", new { @class = "label label-danger" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>Section Wise</label>
+                        @Html.DropDownListFor(m => m.SectionID, Model.SectionList, "-- Select Section --", new { @class = "form-control", id = "SectionID" })
+                        @Html.ValidationMessageFor(m => m.SectionID, "", new { @class = "label label-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Session Wise</label>
+                        @Html.DropDownListFor(m => m.SessionID, Model.SessionList, "-- Select Session --", new { @class = "form-control", id = "SessionID" })
+                        @Html.ValidationMessageFor(m => m.SessionID, "", new { @class = "label label-danger" })
+                    </div>
+
+                    @*<div class="col-md-3">
+                                <label class="control-label">Religion<span class="star">* </span></label>
+                                <br />
+                                <select>
+                                    <option>Select Religion</option>
+                                    <option>Hinduism</option>
+                                    <option>Buddhism</option>
+                                    <option>Christianity</option>
+                                    <option>Muslim</option>
+                                    <option>Sikhism</option>
+                                    <option>Jainism</option>
+                                    <option>Judaism</option>
+                                    <option>Islam</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <label>Caste</label>
+                                <br />
+                                <select>
+                                    <option>Select Caste</option>
+                                    <option>General</option>
+                                    <option>OBC</option>
+                                    <option>SC</option>
+                                    <option>ST</option>
+                                </select>
+                            </div>*@
+
+                    <div class="col-md-5" style="margin-top:25px;">
+                        <button id="btnSearch" class="btn btn-success">
+                            <i class="fa fa-search"></i> Search
+                        </button>
+
+                        <button id="btnClear" class="btn btn-primary">
+                            <i class="fa fa-refresh"></i> Clear
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="container">
+
+
+                    <table id="tblAdmission" class="table table-bordered table-striped">
+
+                        <thead style="background:#2a5966;color:white;">
+                            <tr>
+                                <th>Sr. No.</th>
+                                <th>Admission No.</th>
+                                <th>Student Name</th>
+                                <th>Father Name</th>
+                                <th>Father Mobile</th>
+                                <th>Class</th>
+                                <th>Section</th>
+                                <th>Session</th>
+                                <th>Fee</th>
+                                <th>Admission Date</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var table;
+
+    $(document).ready(function () {
+
+        table = $('#tblAdmission').DataTable({
+
+            processing: true,
+            serverSide: false,
+            paging: true,
+            searching: true,
+            ordering: true,
+            info: true,
+
+            dom: 'lBfrtip',
+            buttons: [
+                'excel',
+                'csv',
+                'print'
+            ],
+
+            ajax: {
+                url: '/Admin/GetAdmissionReportList',   // Controller Action
+                type: 'GET',
+                datatype: 'json',
+                // SEND FILTER DATA
+                data: function (d) {
+
+                    d.AdmissionNo = $('#AdmissionNo').val();
+                    d.ClassID = $('#ClassID').val();
+                    d.SectionID = $('#SectionID').val();
+                    d.SessionID = $('#SessionID').val();
+                },
+                dataSrc: 'data'   // IMPORTANT if returning List<>
+            },
+
+            columns: [
+
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + 1; // Serial number
+                    }
+                },
+
+                { data: 'AdmissionNo' },
+                { data: 'StudentName' },
+                { data: 'FatherName' },
+                { data: 'FatherMobileNo' },
+                { data: 'Class' },
+                { data: 'Section' },
+                { data: 'Session' },
+                { data: 'Fee' },
+                { data: 'AdmissionDate' }
+
+            ]
+
+        });
+
+    });
+
+</script>
+<script>
+
+    $('#btnSearch').click(function (e) {
+
+        e.preventDefault();
+
+        table.ajax.reload();
+
+    });
+
+</script>

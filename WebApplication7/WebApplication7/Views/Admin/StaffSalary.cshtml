@@ -1,0 +1,302 @@
+﻿@model WebApplication7.Models.StaffSalaryModel
+
+@{
+    ViewBag.Title = "StaffSalary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 style="font-size:16px;">➕Staff Salary  <small></small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+                @using (Ajax.BeginForm("AddStaff", "Admin", new AjaxOptions() { OnSuccess = "Success", OnFailure = "Fail" }, new { @id = "formsubmit", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                {
+                    <div>
+                        @Html.HiddenFor(m => m.StaffSalaryID)
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Select Month<span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.Month, "{0:YYYY:MM:DD}", new { @class = "form-control", type = "month" })
+                            @Html.ValidationMessageFor(m => m.Month, "", new { @class = "label label-danger" })
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Select Employee <span class="star">*</span></label>
+                            @Html.DropDownListFor(m => m.EmpID, Model.EmployeeSalaryList, "-- Select Employee--", new { @class = "form-control", id = "EmpID" })
+                            @Html.ValidationMessageFor(m => m.EmpID, "", new { @class = "label label-danger" })
+                        </div>
+                    </div>
+
+                    <h4>Salary details</h4>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Designation</label>
+                            @Html.TextBoxFor(m => m.Designation, new { @class = "form-control", @required = "required", id="Desgination" })
+
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Date Of Joining</label>
+                            @Html.TextBoxFor(m => m.DateOfJoining, "{0:YYYY:MM:DD}", new { @class = "form-control", @required = "required", type = "date", id="DateOfJoining" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Total Working Days</label>
+                            @Html.TextBoxFor(m => m.TWorkingDays, new { @class = "form-control", @required = "required", id="TWorkingDays" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">LOP Days</label>
+                            @Html.TextBoxFor(m => m.LOP, new { @class = "form-control", @required = "required", id="LOP" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Gross Salary</label>
+                            @Html.TextBoxFor(m => m.GrossSalary, new { @class = "form-control", @required = "required",id="GrossSalary" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Paid Days</label>
+                            @Html.TextBoxFor(m => m.PaidDay, new { @class = "form-control", @required = "required", id="PaidDay" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Bank Name</label>
+                            @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @required = "required", id="BankName" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Bank A/c No</label>
+                            @Html.TextBoxFor(m => m.BankACNo, new { @class = "form-control", @required = "required", id="BankACNo" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">IFSC Code</label>
+                            @Html.TextBoxFor(m => m.IFSCCode, new { @class = "form-control", @required = "required", id="IFSCCode" })
+
+                        </div>
+                    </div>
+
+                    <div class="container panel-box">
+
+                        <div class="row">
+
+                            <!-- Earnings -->
+                            <div class="col-md-6">
+
+                                <h4 class="section-title">Earnings</h4>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Basic Salary<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.BasicSalary, new { @class = "form-control", @required = "required", id="BasicSalary" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">HRA<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.HRA, new { @class = "form-control", @required = "required", id="HRA" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Travel Allowance<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.TravelAllowance, new { @class = "form-control", @required = "required", id= "TravelAllowance" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Conveyance Allowance<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.ConveyanceAllowance, new { @class = "form-control", @required = "required", id = "ConveyanceAllowance" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Special Allowance<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.SpecialAllowance, new { @class = "form-control", @required = "required", id= "SpecialAllowance" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Food Allowance<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.FoodAllowance, new { @class = "form-control", @required = "required", id= "FoodAllowance" })
+                                </div>
+
+                            </div>
+
+
+                            <!-- Deductions -->
+                            <div class="col-md-6">
+
+                                <h4 class="section-title">Deductions</h4>
+
+                                <div class="col-md-6 -group">
+                                    <label class="control-label">EPF Contribution<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.EPFContribution, new { @class = "form-control", @required = "required", id="EPFContribution" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Medical Allowance<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.MedicalAllowance, new { @class = "form-control", @required = "required", id="MedicalAllowance" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Professional Tax<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.ProfessionalTax, new { @class = "form-control", @required = "required", id="ProfessionalTax" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="section-title">Employer Contribution</div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">PF Contribution<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.PFContribution, new { @class = "form-control", @required = "required", id="PFContribution"})
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">ESI Contribution<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.ESIContribution, new { @class = "form-control", @required = "required",id="ESIContribution" })
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Summary Section -->
+                        <div class="highlight">
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <label class="control-label">Net Gross Salary<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.NetGrossSalary, new { @class = "form-control", @required = "required", id="NetGrossSalary" })
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="control-label">Total Deduction<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.TotalDeduction, new { @class = "form-control", @required = "required", id="TotalDeduction" })
+                                </div>
+
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <label class="control-label">Net Pay<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.NetPay, new { @class = "form-control", @required = "required", id="NetPay"})
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <br>
+
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <label class="control-label">Leave Day<span class="star">* </span></label>
+                                @Html.TextBoxFor(m => m.LeaveDay, new { @class = "form-control", @required = "required" , id="LeaveDay"})
+                            </div>
+
+                            <div class="col-md-5">
+                                <label class="control-label">Deduct Salary<span class="star">* </span></label>
+                                @Html.TextBoxFor(m => m.DeductSalary, new { @class = "form-control", @required = "required", id="DeductSalary" })
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="control-label">Net Payable Salary<span class="star">* </span></label>
+                                @Html.TextBoxFor(m => m.NetPayableSalary, new { @class = "form-control", @required = "required", id="NetPayableSalary"})
+                            </div>
+
+                        </div>
+
+
+                        <br>
+
+                        <button class="btn btn-success">Submit</button>
+                        <button class="btn btn-primary">Cancel</button>
+
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+$(document).ready(function () {
+
+    $("#EmpID").change(function () {
+
+        var empId = $(this).val();
+
+        if (empId != "") {
+
+            $.ajax({
+                url: '/Admin/GetStaffDetails',
+                type: 'GET',
+                data: { empId: empId },
+
+                success: function (data) {
+
+                    if (data != null) {
+
+                        // ===== AUTO FILL MATCHING FIELDS =====
+
+                        $("#Desgination").val(data.Designation);   //staffsalary.val(data.Addstaff)
+                        $("#GrossSalary").val(data.GrossSalary);
+
+                        $("#BasicSalary").val(data.BasicSalary);
+                        $("#HRA").val(data.HRA);
+                        $("#TravelAllowance").val(data.TravelAllowance);
+                        $("#ConveyanceAllowance").val(data.ConveyanceAllowance);
+                        $("#SpecialAllowance").val(data.SpecialAllowance);
+                        $("#FoodAllowance").val(data.FoodAllowance);
+
+                        $("#EPFContribution").val(data.EPF);
+                        $("#MedicalAllowance").val(data.MedicalAllowance);
+                        $("#ProfessionalTax").val(data.ProfessionalTax);
+
+                        $("#PFContribution").val(data.PFCount);
+                        $("#ESIContribution").val(data.ESIC);
+                        $("#NetGrossSalary").val(data.NetGrossSalary);
+                        $("#TotalDeduction").val(data.TotalDeduction);
+                        $("#NetPay").val(data.NetPay);
+
+                        $("#BankName").val(data.BankName);
+                        $("#BankACNo").val(data.AccountNo);
+                        $("#IFSCCode").val(data.IFSCCode);
+
+                    }
+                },
+
+                error: function () {
+                    alert("Failed to load staff details");
+                }
+
+            });
+
+        }
+
+    });
+
+});
+
+</script>

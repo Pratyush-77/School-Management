@@ -1,0 +1,121 @@
+﻿@model WebApplication7.Models.PromoteStudentModel
+@{
+    ViewBag.Title = "PromoteStudent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="right_col" role="main">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content" id="promoteModal">
+
+
+                <div class="modal-header bg-primary text-white">
+                    <h4 class="modal-title">🎓 Promote Student</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" id="PromoteAdmissionID" />
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <label>Admission No</label>
+                            <input type="text" id="PromoteAdmissionNo" class="form-control" readonly />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Student Name</label>
+                            <input type="text" id="PromoteStudentName" class="form-control" readonly />
+                        </div>
+
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+
+                        @using (Ajax.BeginForm("PromoteStudent", "Admin", new AjaxOptions() { OnSuccess = "Success", OnFailure = "Fail" }, new { @id = "formsubmit", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                        {
+                            @Html.HiddenFor(m => m.PromoteID)
+                            <div class="col-md-4">
+                                <label>Class</label>
+                                @Html.DropDownListFor(m => m.ClassID,
+                                     Model.ClassList,
+                                     "-- Select Class --",
+                                     new { @class = "form-control", id = "ClassID" })
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>Section</label>
+                                @Html.DropDownListFor(m => m.SectionID,
+                                     Model.SectionList,
+                                     "-- Select Section --",
+                                     new { @class = "form-control" })
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>Session</label>
+                                @Html.DropDownListFor(m => m.SessionID,
+                                     Model.SessionList,
+                                     "-- Select Session --",
+                                     new { @class = "form-control" })
+                            </div>
+                        }
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="PromoteStudent()">
+                        🚀 Promote
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function OpenPromoteModal(id, admissionNo, studentName) {
+
+        $("#AdmissionID").val(id);
+        $("#AdmissionNo").val(admissionNo);
+        $("#StudentName").val(studentName);
+
+        $("#promoteModal").modal("show");
+    }
+
+    function PromoteStudent() {
+
+        $.ajax({
+            url: '/Admin/PromoteStudentSave',
+            type: 'POST',
+            data: {
+                admissionId: $("#AdmissionID").val(),
+                classId: $("#ClassID").val(),
+                sectionId: $("#SectionID").val(),
+                sessionId: $("#SessionID").val()
+            },
+            success: function (res) {
+
+                alert(res.message);
+                $("#promoteModal").modal("hide");
+
+                loadAdmissionData(); // refresh table
+            },
+            error: function () {
+                alert("Promotion Failed");
+            }
+        });
+    }
+
+</script>

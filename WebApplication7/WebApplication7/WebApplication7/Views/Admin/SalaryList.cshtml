@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "SalaryList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="right_col" role="main">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 style="font-size:16px;">➕Staff List <small></small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <label>From</label>
+                        <input type="date" class="form-control" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>To</label>
+                        <input type="date" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label>Select Employee</label>
+                        <input type="text" class="form-control" />
+                    </div>
+
+                    <div class="col-md-5" style="margin-top:25px;">
+                        <button class="btn btn-success">
+                            <i class="fa fa-search"></i> Search
+                        </button>
+
+                        <button class="btn btn-primary">
+                            <i class="fa fa-refresh"></i> Clear
+                        </button>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="container" style="margin-top:30px;">
+
+                        <table id="staffTable" class="table table-bordered table-striped">
+                            <thead style="background:#2a5d6e;color:white;">
+                                <tr>
+                                    <th>Sr.No.</th>
+                                    <th>Staff Code</th>
+                                    <th>Staff Name</th>
+                                    <th>Month</th>
+                                    <th>Total Day</th>
+                                    <th>Working Day</th>
+                                    <th>Per Day Salary</th>
+                                    <th>Payable Salary</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $(document).ready(function () {
+
+            $('#staffTable').DataTable({
+
+                dom: 'lBfrtip', // show entries + buttons + search
+
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text: 'Excel',
+                        className: 'btn btn-success'
+                    },
+                    {
+                        extend: 'csv',
+                        text: 'CSV',
+                        className: 'btn btn-info'
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Print',
+                        className: 'btn btn-warning'
+                    }
+                ]
+
+            });
+
+        });
+
+    </script>

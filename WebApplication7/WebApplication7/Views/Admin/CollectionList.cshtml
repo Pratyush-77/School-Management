@@ -1,0 +1,198 @@
+﻿@model WebApplication7.Models.CollectionListModel
+@{
+    ViewBag.Title = "CollectionList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 style="font-size:16px;">➕ Collection List</h2>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+                <div class="container" style="margin-top:20px;">
+
+                    <form id="searchForm">
+
+                        <div class="row">
+
+                            <!-- Payment Type -->
+                            <div class="col-md-3">
+                                <label>Payment Type</label>
+                                <select class="form-control" id="PaymentType">
+                                    <option value="">Enter Payment Type</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="UPI">UPI</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Cheque">Cheque</option>
+                                </select>
+                            </div>
+
+                            <!-- Class Wise -->
+                            <div class="col-md-2">
+                                <label>Class Wise</label>
+                                @Html.DropDownListFor(m => m.ClassID, Model.ClassList, "-- Select Class --", new { @class = "form-control", id = "ClassID" })
+                                @*@Html.ValidationMessageFor(m => m.ClassID, "", new { @class = "label label-danger" })*@
+                            </div>
+
+                            <!-- Section Wise -->
+                            <div class="col-md-2">
+                                <label>Section Wise</label>
+                                @Html.DropDownListFor(m => m.SectionID, Model.SectionList, "-- Select Section --", new { @class = "form-control", id = "SectionID" })
+                                @*@Html.ValidationMessageFor(m => m.SectionID, "", new { @class = "label label-danger" })*@
+                            </div>
+
+                            <!-- Session Wise -->
+                            <div class="col-md-2">
+                                <label>Session Wise</label>
+                                @Html.DropDownListFor(m => m.SessionID, Model.SessionList, "-- Select Session --", new { @class = "form-control", id = "SessionID" })
+                                @*@Html.ValidationMessageFor(m => m.SessionID, "", new { @class = "label label-danger" })*@
+                            </div>
+
+                            <!-- Fee Head Wise -->
+                            <div class="col-md-3">
+                                <label>Fee Head Wise</label>
+                                @Html.DropDownListFor(m => m.FeeHeadID, Model.FeeHeadList, "-- Select Fee Head --", new { @class = "form-control", id = "FeeHeadID" })
+                                @*@Html.ValidationMessageFor(m => m.FeeHeadID, "", new { @class = "label label-danger" })*@
+                            </div>
+
+                        </div>
+
+                        <br>
+
+                        <div class="row">
+
+                            <!-- From Date -->
+                            <!--<div class="col-md-3">
+                                <label>From</label>
+                                <input type="date" class="form-control">
+                            </div>-->
+                            <!-- To Date -->
+                            <!--<div class="col-md-3">
+                                <label>To</label>
+                                <input type="date" class="form-control">
+                            </div>-->
+                            <!-- Buttons -->
+                            <div class="col-md-6" style="margin-top:25px;">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-search"></i> Search
+                                </button>
+
+                                <button type="reset" class="btn btn-primary">
+                                    <i class="fa fa-refresh"></i> Clear
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+            <div class="container">
+
+                <table id="paymentTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>Payment Date</th>
+                            <th>Admission No.</th>
+                            <th>Student Name</th>
+                            <th>Class</th>
+                            <th>Payment Mode</th>
+                            <th>Paid Amt</th>
+                            @*<th>Action</th>*@
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var table;
+
+    $(document).ready(function () {
+
+        table = $('#paymentTable').DataTable({
+
+            processing: true,
+            serverSide: false,
+            paging: true,
+            searching: false,
+            ordering: true,
+
+            dom: 'lBfrtip',
+            buttons: [
+                { extend: 'excel', className: 'btn btn-success' },
+                { extend: 'csv', className: 'btn btn-primary' },
+                { extend: 'print', className: 'btn btn-warning' }
+            ],
+
+            ajax: {
+                url: '/Admin/GetCollectionList',
+                type: 'GET',
+                data: function (d) {
+
+                    // send filters to controller
+                    d.PaymentType = $('#PaymentType').val();
+                    d.ClassID = $('#ClassID').val();
+                    d.SectionID = $('#SectionID').val();
+                    d.SessionID = $('#SessionID').val();
+                    d.FeeHeadID = $('#FeeHeadID').val();
+                }
+            },
+
+            columns: [
+
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + 1;
+                    }
+                },
+                { data: "PaymentDate" },
+                { data: "AdmissionNo" },
+                { data: "StudentName" },
+                { data: "ClassName" },
+                { data: "PaymentMode" },
+                { data: "PaidAmount" }
+            ]
+
+        });
+
+
+        // ✅ SEARCH BUTTON CLICK
+        $('#searchForm').submit(function (e) {
+
+            e.preventDefault();
+
+            table.ajax.reload(null, false);
+
+        });
+
+
+        // ✅ CLEAR BUTTON CLICK
+        $('#searchForm button[type="reset"]').click(function () {
+
+            setTimeout(function () {
+
+                table.ajax.reload();
+
+            }, 200);
+
+        });
+
+    });
+
+</script>
+
+
+
+
+

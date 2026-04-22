@@ -1,0 +1,263 @@
+﻿@model WebApplication7.Models.AdmissionModel
+@{
+    ViewBag.Title = "Admission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 style="font-size:16px;">➕New Admission  <small></small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <h4>Admission seeking in</h4>
+
+                @using (Ajax.BeginForm("SaveAdmission", "Admin", new AjaxOptions() { OnSuccess = "Success", OnFailure = "Fail" }, new { @id = "formsubmit", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                {
+                    <div>
+                        @Html.HiddenFor(m => m.AdmissionID)
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Admission No<span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.AdmissionNo, new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(m => m.AdmissionNo, "", new { @class = "label label-danger" })
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12" id="passwordSection">
+                            <label class="control-label">Admission Date <span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.AdmissionDate, "{0:YYYY-MM-dd}", new { @class = "form-control", type = "date" })
+                            @Html.ValidationMessageFor(m => m.AdmissionDate, "", new { @class = "label label-danger" })
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Select Class Name<span class="star">*</span></label>
+                            @Html.DropDownListFor(m => m.ClassID, Model.ClassList, "-- Select Class --", new { @class = "form-control", id = "ClassID" })
+                            @Html.ValidationMessageFor(m => m.ClassID, "", new { @class = "label label-danger" })
+                        </div>
+
+
+
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                            <label class="control-label">Section Name <span class="star">*</span></label>
+                            @Html.DropDownListFor(m => m.SectionID, Model.SectionList, "-- Select Section --", new { @class = "form-control", id = "SectionID" })
+                            @Html.ValidationMessageFor(m => m.SectionID, "", new { @class = "label label-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Session Name<span class="star">*</span></label>
+                            @Html.DropDownListFor(m => m.SessionID, Model.SessionList, "-- Select Session --", new { @class = "form-control", id = "SessionID" })
+                            @Html.ValidationMessageFor(m => m.SessionID, "", new { @class = "label label-danger" })
+                        </div>
+                    </div>
+                    <h4>Child Personal Details</h4>
+
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Enter Student Name</label>
+                            @Html.TextBoxFor(m => m.StudentName, new { @class = "form-control", @required = "required" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Date Of Birth</label>
+                            @Html.TextBoxFor(m => m.DOB, "{0:YYYY-MM-dd}", new { @class = "form-control", type = "date" })
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Mother Tongue or First Language <span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.MotherTongue, new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Blood Group<span class="star">* </span></label>
+                            @Html.DropDownListFor(x => x.BloodGroup, new[]{
+
+                            new SelectListItem() { Text = "A+"},
+                            new SelectListItem() { Text = "B+"},
+                            new SelectListItem() { Text = "AB+"},
+                            new SelectListItem() { Text = "AB-"},
+                            new SelectListItem() { Text = "A-"},
+                            new SelectListItem() { Text = "B-"},
+                            new SelectListItem() { Text = "O+"},
+                            new SelectListItem() { Text = "O-"},
+
+
+                            }, "Select Blood Group ", new { @class = "form-control" })
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Enter Gender</label>
+                            @Html.DropDownListFor(x => x.Gender, new[]{
+
+                            new SelectListItem() { Text = "Male"},
+                            new SelectListItem() { Text = "Female"},
+                            new SelectListItem() { Text = "Others"},
+                            }, "Enter Gender", new { @class = "form-control" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Aadhaar No.<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.AadhaarNo, new { @class = "form-control",
+                           @maxlength = "12",
+                           @minlength = "12",
+                           @pattern = "\\d{12}",
+                           @title = "Aadhaar must be exactly 12 digits",
+                           @oninput = "this.value = this.value.replace(/[^0-9]/g, '')",
+                           @required = "required" })
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Aadhaar Front Image<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.AadhaarFrontImage, new { @class = "form-control", @required = "required", @type = "file" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Aadhaar Back Image<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.AadhaarBackImage, new { @class = "form-control", @required = "required", @type = "file" })
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Nationality<span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.Nationality, new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Religion<span class="star">* </span></label>
+                            @Html.DropDownListFor(x => x.Religion, new[]{
+
+                            new SelectListItem() { Text = "Hinduism"},
+                            new SelectListItem() { Text = "Buddhism"},
+                            new SelectListItem() { Text = "Christianity"},
+                            new SelectListItem() { Text = "Muslim"},
+                            new SelectListItem() { Text = "Sikhism"},
+                            new SelectListItem() { Text = "Jainism"},
+                            new SelectListItem() { Text = "Judaism"},
+                            new SelectListItem() { Text = "Islam"},
+
+
+                            }, "Select Religion ", new { @class = "form-control" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Caste<span class="star"> </span></label>
+                            @Html.DropDownListFor(x => x.Caste, new[]{
+
+                            new SelectListItem() { Text = "GENERAL"},
+                            new SelectListItem() { Text = "OBC"},
+                            new SelectListItem() { Text = "ST"},
+                            new SelectListItem() { Text = "SC"},
+
+
+                            }, "Select Caste ", new { @class = "form-control" })
+
+                        </div>
+                    </div>
+
+                    <h4> Residential Address & Family Information</h4>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Address<span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @required = "required" })
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">State<span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.State, new { @class = "form-control", @required = "required" })
+                        </div>
+
+                    </div>
+
+                    <h4> Father</h4>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Father Name <span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Occupation<span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.FatherOccupation, new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Mobile No <span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.FatherMobileNo, new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Annual Income <span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.FatherAnnualIncome, new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+
+
+                    <h4> Mother</h4>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Mother Name <span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.MotherName, new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Occupation<span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.MotherOccupation, new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Mobile No <span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.MotherMobileNo, new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Annual Income <span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.MotherAnnualIncome, new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-sm-2 col- xs-12 control-label"></label>
+                        <div class="col-md-10 col-sm-10 col-xs-12">
+                            <input type="submit" id="btnsubmit" class="btn btn-success" value="Submit" />
+                            
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function Success(response) {
+
+        // Success alert
+        alert("✅ Admission saved successfully!");
+
+        // Optional: reset form after save
+        $("#formsubmit")[0].reset();
+
+        // Optional: redirect
+        // window.location.href = "/Admin/AdmissionList";
+    }
+
+    function Fail(xhr, status, error) {
+
+        // Error alert
+        alert("❌ Something went wrong. Please try again.");
+
+    }
+
+</script>
+
+
+
+
+
+
+

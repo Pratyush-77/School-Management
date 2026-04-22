@@ -1,0 +1,411 @@
+﻿@model WebApplication7.Models.AddStaffModel
+@{
+    ViewBag.Title = "AddStaff";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 style="font-size:16px;">➕Add Staff  <small></small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <h4>New Staff</h4>
+
+                @using (Ajax.BeginForm("AddStaff", "Admin", new AjaxOptions() { OnSuccess = "Success", OnFailure = "Fail" }, new { @id = "formsubmit", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                {
+                    <div>
+                        @Html.HiddenFor(m => m.AddStaffID)
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Employee Name<span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.EmpName, new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(m => m.EmpName, "", new { @class = "label label-danger" })
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Father's Name <span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.EmpFatherName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.EmpFatherName, "", new { @class = "label label-danger" })
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Gender<span class="star">*</span></label>
+                            @Html.DropDownListFor(x => x.Gender, new[]{
+
+                                    new SelectListItem() { Text = "Male"},
+                                    new SelectListItem() { Text = "Female"},
+                                    new SelectListItem() { Text = "Others"},
+                                    }, "Enter Gender", new { @class = "form-control" })
+                        </div>
+
+
+
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                            <label class="control-label">DOB <span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.DOB, "{0:YYYY-MM-dd}", new { @class = "form-control", @required = "required", type = "date" })
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Mobile No</label>
+                            @Html.TextBoxFor(m => m.MobileNo, new { @class = "form-control", @required = "required" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Dealer Designation<span class="star">* </span></label>
+                            @Html.DropDownListFor(x => x.Designation, new[]{
+
+                            new SelectListItem() { Text = "Account"},
+                            new SelectListItem() { Text = "Administrator"},
+                            new SelectListItem() { Text = "IT Support"},
+                            new SelectListItem() { Text = "Libraian"},
+                            new SelectListItem() { Text = "Prinipal"},
+                            new SelectListItem() { Text = "Receptionist"},
+                            new SelectListItem() { Text = "Student"},
+                            new SelectListItem() { Text = "Teacher"},
+                            new SelectListItem() {Text = "Transport Manager"}
+
+                            }, "Select Designation", new { @class = "form-control" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Email <span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">PAN No<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.PANNo, new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Aadhaar No</label>
+                            @Html.TextBoxFor(m => m.AadhaarNo, new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+
+
+
+                    <h4>Present Address</h4>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Address<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.PresentAddress, new { @class = "form-control", @required = "required" })
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">City Name<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.PresentCityName, new { @class = "form-control", @required = "required" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">District Name<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.PresentDistrictName, new { @class = "form-control", @required = "required" })
+
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Pincode<span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.PresentPincode, new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+
+
+
+                    <h4>Correspodence Address</h4>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Address<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.CorAddress, new { @class = "form-control", @required = "required" })
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">City Name<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.CorCityName, new { @class = "form-control", @required = "required" })
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">District Name<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.CorDistrictName, new { @class = "form-control", @required = "required" })
+
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Pincode<span class="star"> *</span></label>
+                            @Html.TextBoxFor(m => m.CorPincode, new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+
+
+
+                    <h4>Salary Information</h4>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label class="control-label">Gross Salary<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.GrossSalary, new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+
+                    @* <div class="container-fluid box">*@
+
+                    <div class="row">
+
+                        <!-- ================= Earnings ================= -->
+
+                        <div class="col-md-6">
+
+                            <h4 class="section-title">Earnings</h4>
+
+                            <div class="row">
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Basic Salary<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.BasicSalary, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">HRA<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.HRA, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Travel Allowance<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.TravelAllowance, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Conveyance Allowance<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.ConveyanceAllowance, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Special Allowance<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.SpecialAllowance, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Food Allowance<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.FoodAllowance, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= Deductions ================= -->
+
+                        <div class="col-md-6">
+
+                            <h4 class="section-title">Deductions</h4>
+
+                            <div class="row">
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">EPF<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.EPF, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Medical Allowance<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.MedicalAllowance, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">Professional Tax<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.ProfessionalTax, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">PF Count<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.PFCount, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label">ESIC<span class="star">* </span></label>
+                                    @Html.TextBoxFor(m => m.ESIC, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= Result Section ================= -->
+
+                    <div class="row result-box">
+
+                        <div class="col-md-6 form-group">
+                            <label class="control-label">Net Gross Salary<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.NetGrossSalary, new { @class = "form-control", @required = "required" })
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <label class="control-label">Total Deduction<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.TotalDeduction, new { @class = "form-control", @required = "required" })
+                        </div>
+
+                    </div>
+
+
+                    <div class="row result-box">
+
+                        <div class="col-md-4 form-group">
+                            <label class="control-label">Net Pay<span class="star">* </span></label>
+                            @Html.TextBoxFor(m => m.NetPay, new { @class = "form-control", @required = "required" })
+                        </div>
+
+                    </div>
+
+                    <h5 style="color:red;">Note:- All document Size should be less than 200kb </h5>
+
+                    <div class="container mt-4">
+
+                        <div class="row">
+
+                            <!-- Profile Image -->
+                            <div class="col-md-3">
+                                <label><b>Profile Image<span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.ProfileImage, new { @class = "form-control", @required = "required", @type = "file" })
+
+                                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                     class="img-fluid mt-3" width="120">
+                            </div>
+
+                            <!-- Aadhaar Front -->
+                            <div class="col-md-3">
+                                <label><b>Aadhaar Card Front Image <span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.AadhaarFrontImage, new { @class = "form-control", @required = "required", @type = "file" })
+                                <div class="preview-box"></div>
+                            </div>
+
+                            <!-- Aadhaar Back -->
+                            <div class="col-md-3">
+                                <label><b>Aadhaar Card Back Image <span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.AadhaarBackImage, new { @class = "form-control", @required = "required", @type = "file" })
+                                <div class="preview-box"></div>
+                            </div>
+
+                            <!-- PAN Card -->
+                            <div class="col-md-3">
+                                <label><b>PAN Card <span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.PANCard, new { @class = "form-control", @required = "required", @type = "file" })
+                                <div class="preview-box"></div>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Document Upload Row -->
+                        <div class="row mt-4">
+
+                            <div class="col-md-4">
+                                <label><b>Document Type<span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.DocumentType, new { @class = "form-control", @required = "required" })
+                            </div>
+
+                            <div class="col-md-4">
+                                <label><b>Select Document<span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.Document, new { @class = "form-control", @required = "required", @type = "file" })
+                            </div>
+
+                            <div class="col-md-2 align-self-end">
+                                <button class="btn btn-primary">Upload</button>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Bank Details -->
+                        <h5 class="section-title">Bank Details</h5>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <label><b>Bank Holder Name <span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.BankHolderName, new { @class = "form-control", @required = "required" })
+                            </div>
+
+                            <div class="col-md-6">
+                                <label><b>Account Number <span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.AccountNo, new { @class = "form-control", @required = "required" })
+                            </div>
+
+                            <div class="col-md-6 mt-3">
+                                <label><b>Bank Name <span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @required = "required" })
+                            </div>
+
+                            <div class="col-md-6 mt-3">
+                                <label><b>Branch Name <span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.BranchName, new { @class = "form-control", @required = "required" })
+                            </div>
+
+                            <div class="col-md-6 mt-3">
+                                <label><b>IFSC Code <span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.IFSCCode, new { @class = "form-control", @required = "required" })
+                            </div>
+
+                            <div class="col-md-6 mt-3">
+                                <label><b>Passbook Image <span class="star">* </span></b></label>
+                                @Html.TextBoxFor(m => m.PassbookImage, new { @class = "form-control", @required = "required", @type = "file" })
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-sm-2 col-xs-12 control-label"></label>
+                        <div class="col-md-10 col-sm-10 col-xs-12">
+                            <input type="submit" id="btnsubmit" class="btn btn-success" value="Submit" />
+                            
+                        </div>
+
+
+                    </div>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function Success(response) {
+
+        if (response.Status) {
+
+            alert(response.Message);
+
+            $('#formsubmit')[0].reset();
+        }
+        else {
+
+            alert(response.Message);
+        }
+    }
+
+    function Fail() {
+
+        alert("Error occurred");
+    }
+
+</script>

@@ -1,0 +1,196 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .gradient-text {
+        font-weight: bold;
+        font-size: 26px;
+        background: linear-gradient(270deg, #94b62c, #33868e, #f5ae1d);
+        background-size: 600% 600%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: flowGradient 6s ease infinite;
+        display: inline-block;
+    }
+
+    @@keyframes flowGradient {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .tile-stats {
+        padding: 20px;
+        color: white;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 20px;
+        transition: transform 0.2s;
+    }
+
+        .tile-stats:hover {
+            transform: scale(1.05);
+        }
+
+        .tile-stats .icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .tile-stats .count {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+    .blink {
+        animation: blinkAnim 1s infinite;
+    }
+
+    @@keyframes blinkAnim {
+        50% {
+            opacity: 0.5;
+        }
+    }
+</style>
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <center>
+                    <h3>
+                        🌟
+                        <span class="gradient-text">Welcome to School Dashboard</span>
+                        🌟
+                    </h3>
+                </center>
+            </div>
+        </div>
+
+        <div class="x_content">
+            <div class="row">
+
+                <!-- Total Session -->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <a href="/Admin/AddSession">
+                        <div class="tile-stats">
+                            <i class="fa fa-calendar-alt icon"></i>
+                            <div class="count" id="tAddSession">📅<br></div>
+                            <h3>Total Session</h3>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Total Section -->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <a href="/Admin/AddSection">
+                        <div class="tile-stats">
+                            <i class="fa fa-gift icon"></i>
+                            <div class="count" id="tGift">🎁<br></div>
+                            <h3>Total Section</h3>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Total Class -->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <a href="/Admin/AddClass">
+                        <div class="tile-stats">
+                            <i class="fa fa-users icon"></i>
+                            <div class="count" id="tMembers">👥<br></div>
+                            <h3>Total Class</h3>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Total Admission -->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <a href="/Admin/AdmissionList">
+                        <div class="tile-stats">
+                            <i class="fa fa-user-tie icon"></i>
+                            <div class="count" id="tEmp">💼<br></div>
+                            <h3>Total Admission</h3>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Total Fee Collect -->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <a href="/Admin/CollectionList">
+                        <div class="tile-stats">
+                            <i class="fa fa-users icon"></i>
+                            <div class="count" id="tMembers">👥<br></div>
+                            <h3>Total Fee Collect</h3>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Total Expenses -->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <a href="/Admin/Expenses">
+                        <div class="tile-stats">
+                            <i class="fa fa-users icon"></i>
+                            <div class="count" id="tMembers">👥<br></div>
+                            <h3>Total Expenses</h3>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Audio Alert (Optional) -->
+<audio id="waterDropSound" src="~/Content/images/water-drip-45622.mp3"></audio>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+<script>
+    $(document).ready(function () {
+        AdminWidget();
+        RandomizeTileColors();
+        setInterval(AdminWidget, 5000);
+    });
+
+    function AdminWidget() {
+        $.ajax({
+            type: "GET",
+            url: '/ClientMoi/GetWidgets',
+            success: function (resp) {
+                // Assuming your API returns these new fields
+                $("#tEventType").text(resp.pastEvents);
+                $("#tGift").text(resp.totalGifts);
+                $("#tMembers").text(resp.totalMembers);
+                $("#tEmp").text(resp.totalUsers);
+            },
+            error: function (err) {
+                console.log("Error fetching widget data:", err);
+            }
+        });
+    }
+
+    function RandomizeTileColors() {
+        var colors = [
+            '#FF6B6B', '#6BCB77', '#4D96FF', '#FFD93D',
+            '#845EC2', '#FF9671', '#00C9A7', '#FFC75F',
+            '#F9F871', '#2E86AB', '#E15F41', '#9A031E'
+        ];
+        $('.tile-stats').each(function () {
+            var randomColor = colors[Math.floor(Math.random() * colors.length)];
+            $(this).css('background', `linear-gradient(135deg, ${randomColor}CC, #222)`);
+        });
+    }
+</script>

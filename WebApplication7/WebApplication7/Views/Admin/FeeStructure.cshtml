@@ -1,0 +1,248 @@
+﻿@model WebApplication7.Models.FeeStructureModel
+
+@{
+    ViewBag.Title = "FeeStructure";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 style="font-size:16px;">➕ Create Fee Structure <small></small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                @using (Ajax.BeginForm("FeeStructure", "Admin", new AjaxOptions() { OnSuccess = "Success", OnFailure = "Fail" }, new { @id = "formsubmit", @class = "form-horizontal" }))
+                {
+                    <div>
+                        @Html.HiddenFor(m => m.FeeID)
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <label class="control-label">Class Name <span class="star">*</span></label>
+                            @Html.DropDownListFor(m => m.ClassNameID, Model.ClassNameList, "-- Select Class --", new
+                       {
+                           @class = "form-control",
+                           id = "ClassID"
+                       })
+                            
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <label class="control-label">Fee Type Name <span class="star">*</span></label>
+                            @Html.DropDownListFor(m => m.FeeNameID, Model.FeeNameList, "-- Select Fee Type --", new
+                       {
+                           @class = "form-control",
+                           id = "FeeNameID"
+                       })
+                            
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <label class="control-label">Fee Amount <span class="star">*</span></label>
+                            @Html.TextBoxFor(m => m.Amount, new
+                            {
+                                @class = "form-control",
+                                @required = "required"
+                            })
+                            
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-sm-2 col-xs-12 control-label"></label>
+                        <div class="col-md-10 col-sm-10 col-xs-12">
+                            <input type="submit" id="btnsubmit" class="btn btn-success" value="Submit" />
+                            <input type="submit" id="btnupdate" class="btn btn-success" value="Update" />
+                            <input type="button" id="btncancel" onclick="Cancel();" class="btn btn-primary" value="Cancel" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Events List Table -->
+    <div class="col-md-8 col-sm-8 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        <div class="table-responsive">
+                            <table id="tblFeeStructure" class="table table-bordered">
+                                <thead>
+                                    <tr class="bg-green">
+                                        <th>Sl. No</th>
+                                        <th>Class Name</th>
+                                        <th>Fee Type Name</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        @*<th>Action</th>*@
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+        AllFeeStructureLists();
+        Cleartxt();
+    });
+
+    var DataTable = null;
+    function AllFeeStructureLists() {
+        DataTable = $("#tblFeeStructure").DataTable({
+            "ajax": {
+                "type": "GET",
+                "url": "/Admin/GetAddFeeStructureList",
+                "datatype": "JSON"
+            },
+            "columns": [
+                {
+                    "render": function (data, type, full, meta) {
+                        return meta.row + 1;
+                    }
+                },
+                { "data": "ClassName" },
+                { "data": "FeeName" },
+                { "data": "Amount" },
+                {
+                    "data": function (val, type) {
+                        if (val.Status == true) {
+                            return "<a class = 'label label-success'onclick=StatusChange(" + val.FeeID + ") >Active </a>"
+                        }
+                        else {
+                            return "<a class='label label-danger'onclick=StatusChange(" + val.FeeID + ")> DeActive </a>"
+                        }
+                    }
+                },
+                //{
+                //    "data": "FeeID", "render": function (data) {
+                //        return "<a class = 'btn btn-danger btn-xs' onclick= deleterow(" + data + ")><i class='glyphicon glyphicon-trash'></i></a>";
+                //    },
+                //    orderable: false
+                //},
+            ],
+            "language": {
+                "emptyTable": "Data Not Found. Click on Add New Button"
+            },
+        });
+    }
+
+    function Cleartxt() {
+        $("#FeeID").val('');
+        $("#ClassName").val('');
+        $("#FeeName").val('');
+        $("#Amount").val('');
+        $("#btnsubmit").show();
+        $("#btnupdate").hide();
+        $("#btncancel").hide();
+    }
+
+    function Cancel() {
+        Cleartxt();
+        $("#btnsubmit").show();
+        $("#btnupdate").hide();
+        $("#btncancle").hide();
+    }
+
+    function Success(response) {
+        if (response.result == true) {
+            Cleartxt();
+            $.notify(response.message, { globalPosition: 'top right', className: 'success' });
+            DataTable.ajax.reload();
+        }
+        else {
+            $.notify(response.message, { globalPosition: 'top right', className: 'error' });
+            DataTable.ajax.reload
+        }
+    }
+
+
+    //function row(id) {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: '/Amount/EditFeeStructure/' + id,
+    //        success: function (res) {
+    //            $("#FeeID").val(id);
+    //            $("#ClassName").val(res.ClassName);
+    //            $("#FeeName").val(res.FeeName);
+    //            $("#Amount").val(res.Amount);
+    //            $("#btnsubmit").hide();
+    //            $("#btnupdate").show();
+    //            $("#btncancel").show();
+    //        },
+    //        error: function (msg) {
+    //            alert(msg.responseText);
+    //        }
+    //    })
+    //};
+
+
+    //function deleterow(id) {
+    //    if (confirm('Are You sure you want to delete this record...?')) {
+    //        $.ajax({
+    //            type: "POST",
+    //            url: '/Admin/DeleteFeeStructure/' + id,
+    //            success: function (response) {
+    //                if (response.result == true) {
+    //                    $.notify(response.message, { globalPosition: 'top right', className: 'success' });
+    //                    DataTable.ajax.reload();
+    //                }
+    //                else {
+    //                    $.notify(response.message, { globalPosition: 'top right', className: 'error' });
+    //                    DataTable.ajax.reload();
+    //                }
+    //            },
+    //            error: function (msg) {
+    //                alert(msg.responseText);
+    //            }
+    //        })
+    //    }
+    //}
+
+
+    function StatusChange(id) {
+        if (confirm('Are You Sure want to change Status?')) {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/FeeStructureStatus/" + id,
+                success: function (response) {
+                    if (response.result) {
+                        $.notify(response.message, { globalPosition: 'top right', className: 'success' });
+                        DataTable.ajax.reload();
+                    }
+                },
+                error: function (msg) {
+                    $.notify(msg.responseText, { globalPosition: 'top right', className: 'error' })
+                }
+            })
+        }
+    };
+
+
+</script>
+
+
+
+
+
+
+

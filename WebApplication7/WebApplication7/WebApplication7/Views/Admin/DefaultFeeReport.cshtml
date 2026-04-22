@@ -1,0 +1,108 @@
+﻿@model WebApplication7.Models.DefaultFeeReportModel
+@{
+    ViewBag.Title = "DefaultFeeReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 style="font-size:16px;">☰ Default Fee List  <small></small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+                <!-- FILTER SECTION -->
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <label>Admission No.</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Class wise</label>
+                        @Html.DropDownListFor(m => m.ClassID, Model.ClassList, "-- Select Class --", new { @class = "form-control", id = "ClassID" })
+                        @Html.ValidationMessageFor(m => m.ClassID, "", new { @class = "label label-danger" })
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Section wise</label>
+                        @Html.DropDownListFor(m => m.SectionID, Model.SectionList, "-- Select Section --", new { @class = "form-control", id = "SectionID" })
+                        @Html.ValidationMessageFor(m => m.SectionID, "", new { @class = "label label-danger" })
+                    </div>
+
+
+                    <div class="col-md-2">
+                        <label>Session wise</label>
+                        @Html.DropDownListFor(m => m.SessionID, Model.SessionList, "-- Select Session --", new { @class = "form-control", id = "SessionID" })
+                        @Html.ValidationMessageFor(m => m.SessionID, "", new { @class = "label label-danger" })
+                    </div>
+
+                </div>
+
+                <div class="row mt-3">
+
+                    <div class="col-md-2">
+                        <label>From</label>
+                        <input type="date" class="form-control">
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>To</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <br />
+
+                    <div class="col-md-3 align-self-end">
+                        <button class="btn btn-success">Search</button>
+                        <button class="btn btn-success">Clear</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+
+        <table id="tblAdmission" class="table table-bordered table-striped">
+
+            <thead style="background:#2a5966;color:white;">
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>Admission No.</th>
+                    <th>Student Name</th>
+                    <th>Class</th>
+                    <th>Total Amt</th>
+                    <th>Paid Amt</th>
+                    <th>Balance Amt</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#tblAdmission').DataTable({
+            dom: 'lBfrtip',
+            buttons: [
+                'excel',
+                'csv',
+                'print'
+            ]
+        });
+
+    });
+
+</script>
+
+
+
+

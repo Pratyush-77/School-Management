@@ -1,0 +1,156 @@
+﻿@model WebApplication7.Models.CollectFeeModel
+@{
+    ViewBag.Title = "CollectFee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="right_col" role="main">
+    <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Student Fee Collection</h2>
+                <h2 style="font-size:16px;">➕ Find Student <small></small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <div class="fee-box">
+
+                    <form>
+
+                        <!-- Admission No -->
+                        <div class="form-group">
+                            <label><strong>Enter Admission No <span style="color:red;">*</span></strong></label>
+                            @Html.DropDownListFor(m => m.AdmissionID, Model.AdmissionNoList, "-- Select Admission No. --", new { @class = "form-control", id = "AdmissionID" })
+                        </div>
+
+                        <!-- Search Button -->
+                        <button type="button" class="btn btn-search" id="btnSearch">Search</button>
+
+                    </form>
+
+                </div>
+                <div id="studentForm" style="display:none;">
+
+                    <div class="form-group">
+                        <label>Student Name</label>
+                        <input type="text" id="StudentName" class="form-control" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Class</label>
+                        <input type="text" id="ClassName" class="form-control" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Section</label>
+                        <input type="text" id="SectionName" class="form-control" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Session</label>
+                        <input type="text" id="SessionName" class="form-control" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Payment Mode</label>
+                        <select id="PaymentMode" class="form-control">
+                            <option>Cash</option>
+                            <option>Online</option>
+                            <option>UPI</option>
+                            <option>Cheque</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Amount Paid</label>
+                        <input type="number" id="AmountPaid" class="form-control" />
+                    </div>
+
+                    <button type="button" class="btn btn-success" id="btnSubmit">
+                        Submit
+                    </button>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+$(document).ready(function () {
+
+    $("#btnSearch").click(function () {
+
+        var admissionID = $("#AdmissionID").val();
+
+        if (admissionID == "" || admissionID == 0) {
+            alert("Please select admission number");
+            return;
+        }
+
+        $.ajax({
+            url: '/Admin/GetStudentDetails',
+            type: 'GET',
+            data: { admissionID: admissionID },
+            success: function (data) {
+
+                if (data != null) {
+
+                    $("#StudentName").val(data.StudentName);
+                    $("#ClassName").val(data.ClassName);
+                    $("#SectionName").val(data.SectionName);
+                    $("#SessionName").val(data.SessionName);
+
+                    $("#studentForm").show();
+                }
+                else {
+                    alert("Student not found");
+                }
+            }
+        });
+
+    });
+
+});
+
+    $("#btnSubmit").click(function () {
+
+        var model = {
+
+            AdmissionID: $("#AdmissionID").val(),
+            PaymentMode: $("#PaymentMode").val(),
+            AmountPaid: $("#AmountPaid").val()
+
+        };
+
+        $.ajax({
+
+            url: '/Admin/SaveCollectFee',
+            type: 'POST',
+            data: model,
+            success: function (response) {
+
+                if (response.success) {
+
+                    alert("Fee Saved Successfully");
+
+                    table.ajax.reload(); // refresh datatable
+
+                    $("#AmountPaid").val('');
+                }
+
+            }
+
+        });
+
+    });
+
+
+</script>
